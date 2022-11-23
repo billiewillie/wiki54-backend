@@ -4,6 +4,7 @@ import multer from 'multer';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import { Users } from './users.js';
+import { Posts } from './posts.js';
 
 // import { checkAuth, handleValidationErrors } from "./utils/index.js";
 // import { registerValidation, loginValidation, postCreateValidation } from "./validations.js";
@@ -68,13 +69,33 @@ app.get('/:department/:id', (req, res) => {
 	const search = (data) => {
 		return data.filter((item) => item.id === Number(id))[0];
 	};
-	res.json(search(Users));
+	res.json(search(Posts));
+});
+
+app.get('/:department/:id/edit', (req, res) => {
+	const { id } = req.params;
+	const search = (data) => {
+		return data.filter((item) => item.id === Number(id))[0];
+	};
+	res.json(search(Posts));
+});
+
+app.post('/architecture', (req, res) => {
+	console.log(req.body);
+	const post = {
+		id: 7,
+		title: 'hello  777',
+		body: req.body,
+		author: 'me',
+		department: 'architecture',
+	};
+	Posts.push(req.body);
 });
 
 // app.get("/posts", PostController.getAll);
 // app.get("/posts/:id", PostController.getOne);
 // app.delete("/posts/:id", checkAuth, PostController.remove);
-// app.post("/posts", checkAuth, postCreateValidation, handleValidationErrors, PostController.create);
+// app.post("/posts", checkAuth, pos  tCreateValidation, handleValidationErrors, PostController.create);
 // app.patch("/posts/:id", checkAuth, postCreateValidation, handleValidationErrors, PostController.update);
 
 app.listen(4444, (err) => {
