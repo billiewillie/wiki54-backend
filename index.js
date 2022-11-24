@@ -1,8 +1,9 @@
-import express from 'express';
 import fs from 'fs';
-import multer from 'multer';
 import cors from 'cors';
+import multer from 'multer';
+import express from 'express';
 import mongoose from 'mongoose';
+
 import { Users } from './users.js';
 import { Posts } from './posts.js';
 
@@ -61,7 +62,7 @@ app.get('/:department', (req, res) => {
 	const search = (data) => {
 		return data.filter((item) => item.department === department);
 	};
-	res.json(search(Users));
+	res.json(search(Posts));
 });
 
 app.get('/:department/:id', (req, res) => {
@@ -80,16 +81,17 @@ app.get('/:department/:id/edit', (req, res) => {
 	res.json(search(Posts));
 });
 
-app.post('/architecture', (req, res) => {
+app.put('/:department/:id', (req, res) => {
+	const { id } = req.params;
 	console.log(req.body);
-	const post = {
-		id: 7,
-		title: 'hello  777',
-		body: req.body,
-		author: 'me',
-		department: 'architecture',
-	};
-	Posts.push(req.body);
+	// const post = {
+	// 	id: 7,
+	// 	title: 'hello  777',
+	// 	body: req.body,
+	// 	author: 'me',
+	// 	department: 'architecture',
+	// };
+	Posts.push(req);
 });
 
 // app.get("/posts", PostController.getAll);
