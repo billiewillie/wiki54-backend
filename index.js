@@ -7,14 +7,14 @@ import mongoose from 'mongoose';
 import { Users } from './users.js';
 import { Posts } from './posts.js';
 
-// import { checkAuth, handleValidationErrors } from "./utils/index.js";
-// import { registerValidation, loginValidation, postCreateValidation } from "./validations.js";
-// import { UserController, PostController } from "./controllers/index.js";
+import { handleValidationErrors } from './utils/index.js';
+import { UserController, PostController } from './controllers/index.js';
+import { loginValidation, postCreateValidation } from './validations.js';
 
-// mongoose
-// 	.connect("mongodb+srv://admin:Blin-1987@cluster0.bem0i2q.mongodb.net/blog?retryWrites=true&w=majority")
-// 	.then(() => console.log("DB ok"))
-// 	.catch((err) => console.log("DB error", err));
+mongoose
+	.connect('mongodb://localhost:27017/wiki54')
+	.then(() => console.log('DB ok'))
+	.catch((err) => console.log('DB error', err));
 
 const app = express();
 
@@ -36,9 +36,7 @@ app.use(express.json());
 app.use(cors());
 app.use('/uploads', express.static('uploads'));
 
-// app.get("/auth/me", checkAuth, UserController.getMe);
 // app.post("/auth/login", loginValidation, handleValidationErrors, UserController.login);
-// app.post("/auth/register", registerValidation, handleValidationErrors, UserController.register);
 
 app.post('/upload', upload.single('image'), (req, res) => {
 	res.json({
@@ -81,16 +79,12 @@ app.get('/:department/:id/edit', (req, res) => {
 	res.json(search(Posts));
 });
 
-app.put('/:department/:id', (req, res) => {
+app.put('/:department/:id', async (req, res) => {
 	const { id } = req.params;
 	console.log(req.body);
-	// const post = {
-	// 	id: 7,
-	// 	title: 'hello  777',
-	// 	body: req.body,
-	// 	author: 'me',
-	// 	department: 'architecture',
-	// };
+	try {
+		// await axios.post('localhost:4444/');
+	} catch (error) {}
 	Posts.push(req);
 });
 

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const PostSchema = new mongoose.Schema(
 	{
@@ -6,7 +6,7 @@ const PostSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		text: {
+		body: {
 			type: String,
 			required: true,
 			unique: true,
@@ -15,13 +15,9 @@ const PostSchema = new mongoose.Schema(
 			type: Array,
 			default: [],
 		},
-		viewsCount: {
-			type: Number,
-			default: 0,
-		},
-		user: {
+		author: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "User",
+			ref: 'User',
 			required: true,
 		},
 		imageUrl: String,
@@ -31,4 +27,4 @@ const PostSchema = new mongoose.Schema(
 	}
 );
 
-export default mongoose.model("Post", PostSchema);
+export default mongoose.model('Post', PostSchema);
