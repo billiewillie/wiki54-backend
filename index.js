@@ -79,19 +79,19 @@ app.get('/:department/:id/edit', (req, res) => {
 	res.json(search(Posts));
 });
 
-app.put('/:department/:id', async (req, res) => {
+app.post('/:department/:id', async (req, res) => {
 	const { id } = req.params;
 	console.log(req.body);
-	try {
-		// await axios.post('localhost:4444/');
-	} catch (error) {}
-	Posts.push(req);
+});
+
+app.post('/:department/createPost', async (req, res) => {
+	console.log(req.body);
 });
 
 // app.get("/posts", PostController.getAll);
 // app.get("/posts/:id", PostController.getOne);
 // app.delete("/posts/:id", checkAuth, PostController.remove);
-// app.post("/posts", checkAuth, pos  tCreateValidation, handleValidationErrors, PostController.create);
+// app.post("/posts", checkAuth, postCreateValidation, handleValidationErrors, PostController.create);
 // app.patch("/posts/:id", checkAuth, postCreateValidation, handleValidationErrors, PostController.update);
 
 app.listen(4444, (err) => {
