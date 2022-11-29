@@ -7,9 +7,9 @@ const PORT = process.env.PORT || 4444;
 
 dotenv.config();
 
-import errorHandler from './middleware/errorMiddleware.js';
 import connectDB from './utils/db.js';
 import PostsRoutes from './routes/postsRoutes.js';
+import errorHandler from './middleware/errorMiddleware.js';
 
 connectDB();
 
