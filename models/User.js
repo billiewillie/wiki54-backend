@@ -23,6 +23,7 @@ const UserSchema = new mongoose.Schema({
 	isMapOpened: {
 		type: Boolean,
 		default: false,
+		required: [true, 'укажите роль пользователя на сайте пожалуйста'],
 	},
 });
 
