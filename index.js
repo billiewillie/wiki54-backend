@@ -9,6 +9,7 @@ dotenv.config();
 
 import connectDB from './utils/db.js';
 import PostsRoutes from './routes/postsRoutes.js';
+import UserRoutes from './routes/userRoutes.js';
 import errorHandler from './middleware/errorMiddleware.js';
 
 connectDB();
@@ -40,6 +41,8 @@ app.post('/upload', upload.single('image'), (req, res) => {
 });
 
 app.use('/api/posts', PostsRoutes);
+app.use('/api/users', UserRoutes);
+
 app.use(errorHandler);
 
 app.listen(PORT, (err) => {

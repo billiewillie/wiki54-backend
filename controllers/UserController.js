@@ -1,105 +1,73 @@
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import asyncHandler from 'express-async-handler';
 
-import UserModel from "../models/User.js";
+import User from '../models/User.js';
 
-export const register = async (req, res) => {
-	try {
-		const password = req.body.password;
-		const salt = await bcrypt.genSalt(10);
-		const hash = await bcrypt.hash(password, salt);
+export const registerUser = asyncHandler(async (req, res) => {
+	const { email, password, department, role } = req.body;
 
-		const doc = new UserModel({
-			email: req.body.email,
-			fullName: req.body.fullName,
-			avatarUrl: req.body.avatarUrl,
-			passwordHash: hash,
+	if (!email || !password) {
+		res.status(400);
+		throw new Error('Пожалуйста заполните все поля');
+	}
+
+	// Check if user exists
+	const userExists = await User.findOne({ email });
+
+	if (userExists) {
+		res.status(400);
+		throw new Error('User already exists');
+	}
+
+	// Hash password
+	const salt = await bcrypt.genSalt(10);
+	const hashedPassword = await bcrypt.hash(password, salt);
+
+	// Create user
+	const user = await User.create({
+		email,
+		password: hashedPassword,
+		department,
+		role,
+	});
+
+	if (user) {
+		res.status(201).json({
+			_id: user.id,
+			email: user.email,
+			department: user.department,
+			role: user.role,
+			token: generateToken(user._id),
 		});
+	} else {
+		res.status(400);
+		throw new Error('неправильные данные');
+	}
+});
 
-		const user = await doc.save();
+export const loginUser = asyncHandler(async (req, res) => {
+	const { email, password } = req.body;
 
-		const token = jwt.sign(
-			{
-				_id: user._id,
-			},
-			"secret123",
-			{
-				expiresIn: "30d",
-			}
-		);
+	// Check for user email
+	const user = await User.findOne({ email });
 
-		const { passwordHash, ...userData } = user._doc;
-
+	if (user && bcrypt.compare(password, user.password)) {
 		res.json({
-			...userData,
-			token,
+			_id: user.id,
+			name: user.name,
+			email: user.email,
+			token: generateToken(user._id),
 		});
-	} catch (err) {
-		res.status(500).json({
-			message: "Не удалось зарегистрироваться",
-		});
+	} else {
+		res.status(400);
+		throw new Error('Invalid credentials');
 	}
-};
+});
 
-export const login = async (req, res) => {
-	try {
-		const user = await UserModel.findOne({ email: req.body.email });
-
-		if (!user) {
-			return res.status(404).json({
-				message: "Пользователь не найден",
-			});
-		}
-
-		const isValidPass = await bcrypt.compare(req.body.password, user._doc.passwordHash);
-
-		if (!isValidPass) {
-			return res.status(400).json({
-				message: "Неверный логин или пароль",
-			});
-		}
-
-		const token = jwt.sign(
-			{
-				_id: user._id,
-			},
-			"secret123",
-			{
-				expiresIn: "30d",
-			}
-		);
-
-		const { passwordHash, ...userData } = user._doc;
-
-		res.json({
-			...userData,
-			token,
-		});
-	} catch (err) {
-		console.log(err);
-		res.status(500).json({
-			message: "Не удалось авторизоваться",
-		});
-	}
-};
-
-export const getMe = async (req, res) => {
-	try {
-		const user = await UserModel.findById(req.userId);
-
-		if (!user) {
-			return res.status(404).json({
-				message: "Пользователь не найден",
-			});
-		}
-
-		const { passwordHash, ...userData } = user._doc;
-
-		res.json(userData);
-	} catch (err) {
-		console.log(err);
-		res.status(500).json({
-			message: "Нет доступа",
-		});
-	}
+// Generate JWT
+const generateToken = (id) => {
+	return jwt.sign({ id }, process.env.JWT_SECRET, {
+		expiresIn: '30d',
+	});
 };

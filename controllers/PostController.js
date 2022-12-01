@@ -12,7 +12,6 @@ export const create = asyncHandler(async (req, res) => {
 		res.status(400);
 		throw new Error('Please enter a text');
 	}
-	console.log(req.body);
 
 	const post = await Post.create({
 		title: req.body.title,

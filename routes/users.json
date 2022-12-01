@@ -1,0 +1,32 @@
+[
+	{
+		"email": "admin@studia54.com",
+		"password": "admin@studia54.com",
+		"department": "studia54",
+		"role": "superAdmin"
+	},
+	{
+		"email": "archadmin@studia54.com",
+		"password": "archadmin@studia54.com",
+		"department": "architechture",
+		"role": "admin"
+	},
+	{
+		"email": "archuser@studia54.com",
+		"password": "archuser@studia54.com",
+		"department": "architechture",
+		"role": "user"
+	},
+	{
+		"email": "visualadmin@studia54.com",
+		"password": "visualadmin@studia54.com",
+		"department": "visual",
+		"role": "admin"
+	},
+	{
+		"email": "visualuser@studia54.com",
+		"password": "visualuser@studia54.com",
+		"department": "visual",
+		"role": "user"
+	}
+]
