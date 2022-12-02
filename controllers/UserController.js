@@ -55,8 +55,12 @@ export const loginUser = asyncHandler(async (req, res) => {
 	if (user && bcrypt.compare(password, user.password)) {
 		res.json({
 			_id: user.id,
-			name: user.name,
+			firstName: user.firstName,
+			lastName: user.lastName,
 			email: user.email,
+			departments: user.departments,
+			isMapOpened: user.isMapOpened,
+			role: user.role,
 			token: generateToken(user._id),
 		});
 	} else {
