@@ -20,9 +20,9 @@ const UserSchema = new mongoose.Schema({
 		type: Array,
 		default: ['studia54'],
 	},
-	role: {
-		type: String,
-		default: 'user',
+	isAdmin: {
+		type: Boolean,
+		default: false,
 	},
 	isMapOpened: {
 		type: Boolean,
