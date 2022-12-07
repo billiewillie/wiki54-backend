@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 4444;
 dotenv.config();
 
 import connectDB from './utils/db.js';
+import SearchRoutes from './routes/searchRoutes.js';
 import PostsRoutes from './routes/postsRoutes.js';
 import UserRoutes from './routes/userRoutes.js';
 import errorHandler from './middleware/errorMiddleware.js';
@@ -40,6 +41,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
 	});
 });
 
+app.use('/api', SearchRoutes);
 app.use('/api/posts', PostsRoutes);
 app.use('/api/users', UserRoutes);
 
