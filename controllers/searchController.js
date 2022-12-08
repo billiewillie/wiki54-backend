@@ -28,7 +28,5 @@ export const getAll = asyncHandler(async (req, res) => {
 
 	const result = search(newPosts);
 
-	console.log(result);
-
 	res.status(200).json(result);
 });
