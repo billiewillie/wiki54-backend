@@ -1,24 +1,24 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
 export default (req, res, next) => {
 	// req.headers.authorization - инфо об авторизации
-	const token = (req.headers.authorization || "").replace(/Bearer\s?/, "");
+	const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
 
 	if (token) {
 		try {
 			// кодовое слово должно совпадать
-			const decoded = jwt.verify(token, "secret122");
+			const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-			req.userId = decoded._id;
+			req.userId = decoded.id;
 			next();
 		} catch (e) {
 			return res.status(403).json({
-				message: "Нет доступа",
+				message: 'Нет доступа',
 			});
 		}
 	} else {
 		return res.status(403).json({
-			message: "no access",
+			message: 'no access',
 		});
 	}
 };

@@ -27,6 +27,20 @@ export const loginUser = asyncHandler(async (req, res) => {
 	}
 });
 
+export const getMe = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.userId);
+
+	if (!user) {
+		return res.status(404).json({
+			message: 'Пользователь не найден',
+		});
+	}
+
+	const { passwordHash, ...userData } = user._doc;
+
+	res.json(userData);
+});
+
 // Generate JWT
 const generateToken = (id) => {
 	return jwt.sign({ id }, process.env.JWT_SECRET, {
