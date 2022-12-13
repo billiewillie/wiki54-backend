@@ -3,7 +3,7 @@ import { loginUser, getMe } from '../controllers/userController.js';
 import checkAuth from '../utils/checkAuth.js';
 const router = express.Router();
 
-router.post('/login', loginUser);
-router.get('/me', checkAuth, getMe);
+router.route('/login').post(loginUser);
+router.route('/me').get(checkAuth, getMe);
 
 export default router;

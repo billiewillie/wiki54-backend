@@ -1,5 +1,6 @@
-import Post from '../models/Post.js';
 import asyncHandler from 'express-async-handler';
+
+import Post from '../models/Post.js';
 
 export const getAll = asyncHandler(async (req, res) => {
 	const { department } = req.params;
@@ -8,16 +9,15 @@ export const getAll = asyncHandler(async (req, res) => {
 });
 
 export const create = asyncHandler(async (req, res) => {
-	if (!req.body.body || !req.body.title || !req.body.department) {
-		res.status(400);
-		throw new Error('Please enter a text');
-	}
-
-	const post = await Post.create({
+	const doc = new Post({
+		department: req.body.department,
 		title: req.body.title,
 		body: req.body.body,
-		department: req.body.department,
+		tags: req.body.tags,
+		user: req.userId,
 	});
+
+	const post = await doc.save();
 
 	res.status(200).json(post);
 });
