@@ -20,6 +20,9 @@ const UserSchema = new mongoose.Schema({
 		type: Array,
 		default: ['studia54'],
 	},
+	line: Number,
+	place: Number,
+	photo: String,
 	isAdmin: {
 		type: Boolean,
 		default: false,

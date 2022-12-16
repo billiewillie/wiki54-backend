@@ -41,6 +41,12 @@ export const getMe = asyncHandler(async (req, res) => {
 	res.json(userData);
 });
 
+export const getUsers = asyncHandler(async (req, res) => {
+	const users = await User.find();
+
+	res.json(users);
+});
+
 // Generate JWT
 const generateToken = (id) => {
 	return jwt.sign({ id }, process.env.JWT_SECRET, {
