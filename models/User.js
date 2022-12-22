@@ -18,11 +18,17 @@ const UserSchema = new mongoose.Schema({
 	},
 	departments: {
 		type: Array,
-		default: ['studia54'],
+		default: [
+			{
+				nameEng: 'studia54',
+				nameRu: 'Студия 54',
+			},
+		],
 	},
 	position: String,
 	placeId: String,
 	photo: String,
+	skype: String,
 	isAdmin: {
 		type: Boolean,
 		default: false,

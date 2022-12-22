@@ -3,7 +3,7 @@ import cors from 'cors';
 import multer from 'multer';
 import express from 'express';
 import * as dotenv from 'dotenv';
-const PORT = process.env.PORT || 4444;
+const PORT = process.env.PORT || 5173;
 
 dotenv.config();
 
@@ -47,7 +47,7 @@ app.use('/api/users', UserRoutes);
 
 app.use(errorHandler);
 
-app.listen(PORT, (err) => {
+app.listen(PORT, '192.168.88.25', (err) => {
 	if (err) return console.log(err);
 	console.log('server ok');
 });
