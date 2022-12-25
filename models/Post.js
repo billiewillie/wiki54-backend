@@ -16,8 +16,9 @@ const PostSchema = new mongoose.Schema(
 			default: [],
 		},
 		department: {
-			type: String,
+			type: mongoose.Schema.Types.ObjectId,
 			required: true,
+			ref: 'Department',
 		},
 		user: {
 			type: mongoose.Schema.Types.ObjectId,

@@ -1,19 +1,29 @@
 import asyncHandler from 'express-async-handler';
 
 import Post from '../models/Post.js';
+import User from '../models/User.js';
+import Department from '../models/Department.js';
 
 export const getAll = asyncHandler(async (req, res) => {
-	const { department } = req.params;
-	const posts = await Post.find({ department });
+	const { userId } = req.params;
+	const { departments } = await User.findById(userId);
+	const posts = await Post.find({ department: { $in: departments } })
+		.populate({ path: 'department', model: 'Department' })
+		.populate({ path: 'user', model: 'User' })
+		.exec();
+
+	console.log(posts);
 	res.status(200).json(posts);
 });
 
 export const create = asyncHandler(async (req, res) => {
+	const { title, body, tags, user, department } = req.body;
+
 	const doc = new Post({
-		department: req.body.department,
-		title: req.body.title,
-		body: req.body.body,
-		tags: req.body.tags,
+		department,
+		title,
+		body,
+		tags,
 		user: req.userId,
 	});
 
